@@ -1,31 +1,38 @@
+import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 import ProdImage from "../../../assets/products/earbuds-prod-1.webp";
+import { Context } from "../../../utils/context";
 import "./CartItem.scss";
+
 const CartItem = () => {
+  const { cartItems, handleCartProductQuantity, handleRemoveFromCart } =
+    useContext(Context);
+
   return (
     <div className="cart-products">
-      <div className="cart-product">
-        <div className="img-container">
-          <img src={ProdImage} alt="" />
-        </div>
+      {cartItems?.map((item) => (
+        <div key={item.id} className="cart-product">
+          <div className="img-container">
+            <img src={ProdImage} alt="" />
+          </div>
 
-        <div className="prod-detail">
-          <span className="name">Product name</span>
-          <MdClose className="close-btn" />
+          <div className="prod-detail">
+            <span className="name">{item.attributes.title}</span>
+            <MdClose className="close-btn"  onClick={() => handleRemoveFromCart(item)}/>
             <div className="quantity-buttons">
-                <span>-</span>
-                <span>5</span>
-                <span>+</span>
+              <span onClick={() => handleCartProductQuantity('dec' , item)}>-</span>
+              <span>{item.attributes.quantity}</span>
+              <span onClick={() => handleCartProductQuantity('inc' , item)}>+</span>
             </div>
 
             <div className="text">
-                <span>3</span>
-                <span>x</span>
-                <span className="highlight">&#8377;4567</span>
+              <span>{item.attributes.quantity}</span>
+              <span>x</span>
+              <span className="highlight">&#8377;{item.attributes.price * item.attributes.quantity}</span>
             </div>
+          </div>
         </div>
-
-      </div>
+      ))}
     </div>
   );
 };
