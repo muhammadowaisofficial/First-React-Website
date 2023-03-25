@@ -14,7 +14,7 @@ const Search = ({ setShowSearch }) => {
     setQuery(e.target.value);
   };
 
-  let {data} = useFetch(`/api/products?populate=*&filter[title][$contains]=${query}`);
+  let {data} = useFetch(`/api/products?populate=*&filters[title][$contains]=${query}`);
 
   if(!query.length) {
     data = null;
@@ -29,7 +29,7 @@ const Search = ({ setShowSearch }) => {
 
       <div className='search-result-content'>
         <div className='search-result'>
-        {data?.data.map(item =>(
+        {data?.data?.map((item) =>(
           <div key={item.id} className='search-result-item'>
 
             <div className='img-container'>
